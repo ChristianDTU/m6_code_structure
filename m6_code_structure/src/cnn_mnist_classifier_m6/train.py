@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import torch
 import typer
-from .data import corrupt_mnist
-from .model import MyAwesomeModel
+from cnn_mnist_classifier_m6.data import corrupt_mnist
+from cnn_mnist_classifier_m6.model import MyAwesomeModel
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
@@ -39,7 +39,7 @@ def train(lr: float = 1e-3, batch_size: int = 32, epochs: int = 10) -> None:
                 print(f"Epoch {epoch}, iter {i}, loss: {loss.item()}")
 
     print("Training complete")
-    torch.save(model.state_dict(), "models/model.pth")
+    torch.save(model.state_dict(), "models/trained_model.pt")
     fig, axs = plt.subplots(1, 2, figsize=(15, 5))
     axs[0].plot(statistics["train_loss"])
     axs[0].set_title("Train loss")

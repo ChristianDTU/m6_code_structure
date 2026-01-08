@@ -1,4 +1,4 @@
-FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
+FROM ghcr.io/astral-sh/uv:python3.11-bookworm-slim
 
 RUN apt update && \
     apt install --no-install-recommends -y build-essential gcc && \
@@ -10,8 +10,11 @@ COPY README.md README.md
 COPY src/ src/
 COPY data/ data/
 
+RUN mkdir -p models reports/figures
+
 WORKDIR /
-RUN uv sync --locked --no-cache --no-install-project
+ENV UV_LINK_MODE=copy
+RUN --mount=type=cache,target=/root/.cache/uv uv sync
 
 ENTRYPOINT ["uv", "run", "src/cnn_mnist_classifier_m6/train.py"]
 
